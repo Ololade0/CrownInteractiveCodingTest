@@ -73,6 +73,7 @@ class CustomerServiceImplTest {
             Customer foundCustomer = customerService.retriveCustomerById(savedCustomers.getCustomerId());
             assertThat(foundCustomer).isNotNull();
             assertThat(foundCustomer.getCustomerId()).isEqualTo(savedCustomers.getCustomerId());
+
         }
 
 

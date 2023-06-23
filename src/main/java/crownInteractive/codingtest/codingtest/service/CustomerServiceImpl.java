@@ -7,6 +7,7 @@ import crownInteractive.codingtest.codingtest.dto.request.SaveCustomerRequest;
 import crownInteractive.codingtest.codingtest.dto.response.SaveCustomerResponse;
 import crownInteractive.codingtest.codingtest.exception.CustomerAlreadyExistException;
 import crownInteractive.codingtest.codingtest.exception.CustomerCannotBeFound;
+import crownInteractive.codingtest.codingtest.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,28 +26,31 @@ public class CustomerServiceImpl implements CustomerService{
     @Autowired
     private BillingService billingService;
 
+    @Autowired
+    private Utils utils;
+
 
     BillingDetails billingDetails;
     Customer savedCustomer;
     @Override
     public SaveCustomerResponse saveNewCustomer(SaveCustomerRequest saveCustomerRequest) throws CustomerAlreadyExistException {
         Optional<Customer> existingCustomer = customerRepository.findCustomerByEmail(saveCustomerRequest.getEmail());
-                if(existingCustomer.isPresent()){
-                    throw new CustomerAlreadyExistException("Customer with" + existingCustomer + " already exist");
-                }
+//                if(existingCustomer.isPresent()){
+//                    throw new CustomerAlreadyExistException("Customer with" + existingCustomer + " already exist");
+//                }
         Customer customer = Customer.builder()
                 .email(saveCustomerRequest.getEmail())
                 .firstName(saveCustomerRequest.getFirstName())
                 .lastName(saveCustomerRequest.getLastName())
                 .billingDetails(saveCustomerRequest.getBillingDetails())
                 .build();
-       billingDetails = billingService.saveBillingDetails(saveCustomerRequest.getBillingDetails());
-       savedCustomer =   customerRepository.save(customer);
-//       return  response(savedCustomer);
-//            }
+        billingDetails = billingService.saveBillingDetails(saveCustomerRequest.getBillingDetails());
+        customer.setBillingDetails(billingDetails);
+        savedCustomer = customerRepository.save(customer);
+        return response(savedCustomer);
 
-
-//    public SaveCustomerResponse response(Customer customer) {
+    }
+    public SaveCustomerResponse response(Customer customer) {
         return SaveCustomerResponse.builder()
                 .message("Customer successfully saved")
                 .customerId(savedCustomer.getCustomerId())
@@ -55,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService{
                 .customerId(savedCustomer.getCustomerId())
                 .billingDetails(BillingDetails.builder()
                         .tarrif(billingDetails.getTarrif())
-                        .accountNumber(billingDetails.getAccountNumber())
+                        .accountNumber(utils.generateAccountNumber())
                         .billingId(billingDetails.getBillingId())
                         .build())
                 .build();
