@@ -6,9 +6,6 @@
   <li><a href="#features">Features</a></li>
   <li><a href="#technologies-used">Technologies Used</a></li>
   <li><a href="#getting-started">Getting Started</a></li>
-  <li><a href="#contributing">Contributing</a></li>
- 
-  <li><a href="#contact">Contact</a></li>
 </ul>
 
 <h2 id="features">Features</h2>
@@ -27,7 +24,7 @@
 
 <ul>
   <li>Java: The backend of the app is developed using Java.</li>
-  <li>Spring Boot: The app is built using the Spring Boot framework, which simplifies the development of web applications in Java.</li>
+  <li>Spring Boot: The app is built using the Spring Boot framework, which simplifies the development of applications in Java.</li>
   <li>MongoDB: The app uses MongoDB as the database to store customer information</li>
   
   
@@ -37,7 +34,7 @@
 
 <ol>
   <li>Clone the repository:
-    <br><code>git clone https://github.com/Ololade0/BankApp_SpringBootProject.git</code></li>
+    <br><code>git clone https://github.com/Ololade0/CrownInteractiveCodingTest.git </code></li>
   <li>Create a MongoDB database and update the application.properties file with your database credentials.</li>
   <li>Start the application:
     <br><code>mvn spring-boot:run</code></li>
